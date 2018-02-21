@@ -41,10 +41,10 @@
 
     <div class="container">
       <div class="jumbotron Absolute-Center">
-        <h1 id="r" class="row"><div class="col text-right">Norm:</div><div class="col value text-left">Norm</div></h1>
+	<!-- <h1 id="r" class="row"><div class="col text-right">Norm:</div><div class="col value text-left">Norm</div></h1>
         <h1 id="x" class="row"><div class="col text-right">X:</div><div class="col value text-left">X</div></h1>
         <h1 id="y" class="row"><div class="col text-right">Y:</div><div class="col value text-left">Y</div></h1>
-        <h1 id="z" class="row"><div class="col text-right">Z:</div><div class="col value text-left">Z</div></h1>
+	<h1 id="z" class="row"><div class="col text-right">Z:</div><div class="col value text-left">Z</div></h1> --!>
       </div>
     </div>
 
@@ -56,20 +56,27 @@
     var values = {}
     client.on("message", function(topic, message) {
       // console.log(topic, message.toString());
-      value = parseFloat(message.toString()).toFixed(2);
+      //value = parseFloat(message.toString()).toFixed(2);
 
-      if (value > 0) {
-        prefix = '+';
-      } else {
-        prefix = '';
-      }
+      //if (value > 0) {
+      //  prefix = '+';
+      //} else {
+      //  prefix = '';
+      //}
 
-      $('#' + topic + '> .value').html(prefix + value);
-      values[topic] = value;
+      //$('#' + topic + '> .value').html(prefix + value);
+      //values[topic] = value;
 
-      norm = (values['x']**2 + values['y']**2 + values['z']**2)**(1/2);
+      //norm = (values['x']**2 + values['y']**2 + values['z']**2)**(1/2);
 
-      $('#r > .value').html('+' + norm.toFixed(2))
+      //$('#r > .value').html('+' + norm.toFixed(2))
+	val = parseFloat(message.toString());
+	console.log(val);
+	if (val > 0.5) {
+	    $('.jumbotron').css('background-color', 'green');
+	} else {
+	    $('.jumbotron').css('background-color', 'red');
+	}
     });
 
   </script>

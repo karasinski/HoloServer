@@ -12,24 +12,6 @@ var moscaSettings = {
   backend: backendSettings
 };
 
-var server = new mosca.Server(moscaSettings);
-
-server.on('clientConnected', function(client) {
-    console.log('client connected', client.id);
-});
-
-// fired when a message is received
-server.on('published', function(packet, client) {
-  // console.log('Published', packet.payload);
-});
-
-server.on('ready', setup);
-
-// fired when the mqtt server is ready
-function setup() {
-  console.log('Mosca server is up and running');
-}
-
 var express = require("express");
 var http = require("http");
 var path = require("path");
@@ -50,3 +32,18 @@ app.get("/", function(req, res) {
 
 srv.listen(3000)
 
+broker.on('clientConnected', function(client) {
+    console.log('client connected', client.id);
+});
+
+// fired when a message is received
+// broker.on('published', function(packet, client) {
+  // console.log('Published', packet.payload);
+// });
+
+broker.on('ready', setup);
+
+// fired when the mqtt broker is ready
+function setup() {
+  console.log('Mosca server is up and running');
+}
