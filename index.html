@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Dashboard</title>
+    <title>HRVIP</title>
 
     <script src="/mqtt.js"></script>
     <script src="/jquery.min.js"></script>
@@ -15,38 +15,25 @@
     <script src="/js/bootstrap.min.js"></script>
 
     <style>
-        h1 {
-          font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
-          font-size: 100pt;
+        body {
+          font: 100pt Menlo, Monaco, Consolas, "Courier New", monospace;
+          color: black;
+          background-color: #e9ecef;
         }
-    
-        .Center-Container {
-          position: relative;
-          height: 100%;
-        }
-    
-        .Absolute-Center {
-          overflow: auto;
-          margin: auto;
+
+        #container {
           position: absolute;
-          top: 0; left: 0; bottom: 0; right: 0;
-          height: 800px;
-          width: 1000px;
-          border: solid black;
-          font-size: 100pt;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
         }
     </style>
 </head>
 
 <body>
-
-    <div class="container">
-        <div class="jumbotron Absolute-Center">
-            <!-- <h1 id="r" class="row"><div class="col text-right">Norm:</div><div class="col value text-left">Norm</div></h1>
-        <h1 id="x" class="row"><div class="col text-right">X:</div><div class="col value text-left">X</div></h1>
-        <h1 id="y" class="row"><div class="col text-right">Y:</div><div class="col value text-left">Y</div></h1>
-        <h1 id="z" class="row"><div class="col text-right">Z:</div><div class="col value text-left">Z</div></h1> -->
-        </div>
+    <div id="container">
+      <div class="jumbotron">
+      </div>
     </div>
 
     <script>
@@ -54,7 +41,7 @@
       var client = mqtt.connect();
       client.subscribe("\#");
 
-      choices = ['red', 'green'];
+      choices = ['LEFT', 'RIGHT'];
 
       function choose(choices) {
           var index = Math.floor(Math.random() * choices.length);
@@ -62,72 +49,33 @@
       }
 
       setInterval(function() {
-          bgcolor = choose(choices);
-          $('.jumbotron').css('background-color', bgcolor);
+          CHOICE = choose(choices);
+          $('.jumbotron').attr('CHOICE', CHOICE);
           var d = new Date();
           var n = d.toLocaleTimeString();
-
-          if (bgcolor == 'red') {
-              bgcolor = 'RED';
-              $('.jumbotron').text('RIGHT');
-          } else if (bgcolor == 'green') {
-              bgcolor = 'GREEN';
-              $('.jumbotron').text('LEFT');
-          }
-
-          console.log(n, ' SET TO ', bgcolor);
+          $('.jumbotron').text(CHOICE);
+          console.log(n, ' SET TO ', CHOICE);
       }, 5000)
 
       var values = {}
       client.on("message", function(topic, message) {
-          // console.log(topic, message.toString());
-          //value = parseFloat(message.toString()).toFixed(2);
+          // LEFT IS NEGATIVE
+          // RIGHT IS POSITIVE
 
-          //if (value > 0) {
-          //  prefix = '+';
-          //} else {
-          //  prefix = '';
-          //}
-
-          //$('#' + topic + '> .value').html(prefix + value);
-          //values[topic] = value;
-
-          //norm = (values['x']**2 + values['y']**2 + values['z']**2)**(1/2);
-
-          //$('#r > .value').html('+' + norm.toFixed(2))
           val = parseFloat(message.toString());
-          // console.log(topic, val);
+          CHOICE = $('.jumbotron').attr('CHOICE')
 
-          current_color = $('.jumbotron').css('background-color')
-          if (current_color == 'rgb(255, 0, 0)') {
-              current_color = 'RED';
-          } else if (current_color == 'rgb(0, 128, 0)') {
-              current_color = 'GREEN';
-          } else {
-              current_color = 'NONE';
-          }
-          // RED IS NEGATIVE
-          // GREEN IS POSITIVE
-
-          //if (val < -0.25) {
-          //    $('.jumbotron').css('background-color', 'red');
-          //} else if (val > 0.25) {
-          //    $('.jumbotron').css('background-color', 'green');
-          //} else {
-          //    $('.jumbotron').css('background-color', 'rgb(233, 236, 239)');
-          //}
-
-          if (((val < -0.25) || (val > 0.25)) && current_color != "NONE") {
+          if (((val < -0.25) || (val > 0.25)) && CHOICE != "NONE") {
               if (val < -0.25) {
-                  input = 'RED';
+                  input = 'LEFT';
               } else if (val > 0.25) {
-                  input = 'GREEN';
+                  input = 'RIGHT';
               }
               var d = new Date();
               var n = d.toLocaleTimeString();
-              console.log(n, ' input ', input, ' output ', current_color);
-              $('.jumbotron').css('background-color', 'rgb(233, 236, 239)');
+              console.log(n, ' input ', input, ' output ', CHOICE);
               $('.jumbotron').text('');
+              CHOICE = 'NONE'
           }
       });
     </script>
