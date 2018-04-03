@@ -16,7 +16,7 @@
 
     <style>
         body {
-          font: 100pt Menlo, Monaco, Consolas, "Courier New", monospace;
+          font: 50pt Menlo, Monaco, Consolas, "Courier New", monospace;
           color: black;
           background-color: #e9ecef;
         }
@@ -54,7 +54,7 @@
           var d = new Date();
           var n = d.toLocaleTimeString();
           $('.jumbotron').text(CHOICE);
-          console.log(n, ' SET TO ', CHOICE);
+          //console.log(n, ' SET TO ', CHOICE);
       }, 5000)
 
       var values = {}
@@ -63,6 +63,7 @@
           // RIGHT IS POSITIVE
 
           val = parseFloat(message.toString());
+          //console.log(topic, val);
           CHOICE = $('.jumbotron').attr('CHOICE')
 
           if (((val < -0.25) || (val > 0.25)) && CHOICE != "NONE") {
@@ -73,7 +74,7 @@
               }
               var d = new Date();
               var n = d.toLocaleTimeString();
-              console.log(n, ' input ', input, ' output ', CHOICE);
+              //console.log(n, ' input ', input, ' output ', CHOICE);
               $('.jumbotron').text('');
               CHOICE = 'NONE'
           }
