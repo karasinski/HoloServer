@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>HRVIP</title>
+    <title>Display</title>
 
     <script src="/mqtt.js"></script>
     <script src="/jquery.min.js"></script>
@@ -39,7 +39,8 @@
     <script>
       // Connect to broker and subscribe to everything
       var client = mqtt.connect();
-      client.subscribe("\#");
+      //client.subscribe("\#");
+      client.subscribe("trigger");
 
       choices = ['LEFT', 'RIGHT'];
 
