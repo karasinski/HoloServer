@@ -30,6 +30,10 @@ app.get("/", function(req, res) {
   res.sendFile(__dirname + '/index.html');
 });
 
+app.get("/dashboard", function(req, res) {
+  res.sendFile(__dirname + '/dashboard.html');
+});
+
 srv.listen(3000)
 
 broker.on('clientConnected', function(client) {
@@ -37,13 +41,13 @@ broker.on('clientConnected', function(client) {
 });
 
 // fired when a message is received
-// broker.on('published', function(packet, client) {
-  // console.log('Published', packet.payload);
-// });
+broker.on('published', function(packet, client) {
+ console.log('Published', packet.topic, packet.payload);
+});
 
 broker.on('ready', setup);
 
 // fired when the mqtt broker is ready
 function setup() {
-  console.log('Mosca server is up and running');
+  console.log('Server is up and running');
 }
