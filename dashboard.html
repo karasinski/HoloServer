@@ -85,7 +85,16 @@
       if (topic == "trial") {
         console.log(parseInt(message.toString()));
         $('#trial')[0].value = parseInt(message.toString());
-      } else {
+      } else if (topic == "secondary") {
+	left_or_right = parseInt(message.toString());
+	if (left_or_right == 0) {
+	    $('#' + topic + '> .value').html("LEFT");
+	} else if (left_or_right == 1) {
+	    $('#' + topic + '> .value').html("RIGHT");
+	} else {
+	    $('#' + topic + '> .value').html("NaN");
+	}
+      }else {
         value = parseFloat(message.toString()).toFixed(2);
         if (value > 0) {
           prefix = '+';
@@ -100,15 +109,15 @@
     $('#send').on('click', function() {
       subject = $('#subject')[0].value
       client.publish('subject', subject)
-      console.log(subject)
+      //console.log(subject)
 
       trial = $('#trial')[0].value
       client.publish('trial', trial)
-      console.log(trial)
+      //console.log(trial)
 
       design = $('#design')[0].value
       client.publish('design', design)
-      console.log(design)
+      //console.log(design)
 
       client.publish('connected', 1)
     });
@@ -117,3 +126,4 @@
 </body>
 
 </html>
+
