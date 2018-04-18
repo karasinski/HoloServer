@@ -39,45 +39,42 @@
     <script>
       // Connect to broker and subscribe to everything
       var client = mqtt.connect();
-      //client.subscribe("\#");
-      client.subscribe("trigger");
+      client.subscribe(["trigger", "secondary"]);
 
-      choices = ['LEFT', 'RIGHT'];
-
-      function choose(choices) {
-          var index = Math.floor(Math.random() * choices.length);
-          return choices[index];
-      }
-
-      setInterval(function() {
-          CHOICE = choose(choices);
-          $('.jumbotron').attr('CHOICE', CHOICE);
-          var d = new Date();
-          var n = d.toLocaleTimeString();
-          $('.jumbotron').text(CHOICE);
-          //console.log(n, ' SET TO ', CHOICE);
-      }, 5000)
-
-      var values = {}
       client.on("message", function(topic, message) {
           // LEFT IS NEGATIVE
           // RIGHT IS POSITIVE
 
+	if (topic == "trigger") {
           val = parseFloat(message.toString());
           //console.log(topic, val);
-          CHOICE = $('.jumbotron').attr('CHOICE')
+	}
 
-          if (((val < -0.25) || (val > 0.25)) && CHOICE != "NONE") {
+	  if (topic == "secondary") {
+	    left_or_right = parseInt(message.toString());
+	    if (left_or_right == 0) {
+	      message = "LEFT";
+	    } else if (left_or_right == 1) {
+	      message = "RIGHT";
+	    } else {
+	      message = "";
+	    }
+
+          //$('.jumbotron').attr('CHOICE', message);
+          $('.jumbotron').text(message);
+	}
+
+	if (((val < -0.25) || (val > 0.25)) && CHOICE != "NONE") {
               if (val < -0.25) {
                   input = 'LEFT';
               } else if (val > 0.25) {
                   input = 'RIGHT';
               }
-              var d = new Date();
-              var n = d.toLocaleTimeString();
+              //var d = new Date();
+              //var n = d.toLocaleTimeString();
               //console.log(n, ' input ', input, ' output ', CHOICE);
               $('.jumbotron').text('');
-              CHOICE = 'NONE'
+              //CHOICE = 'NONE'
           }
       });
     </script>
