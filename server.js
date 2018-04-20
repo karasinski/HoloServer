@@ -42,7 +42,9 @@ broker.on('clientConnected', function(client) {
 
 // fired when a message is received
 broker.on('published', function(packet, client) {
- console.log('Published', packet.topic, packet.payload);
+  if (['time', 'x', 'y', 'z', 'trigger'].indexOf(packet.topic) < 0) {
+    console.log('Published', packet.topic, packet.payload);
+  }
 });
 
 broker.on('ready', setup);

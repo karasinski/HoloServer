@@ -39,34 +39,19 @@
     <script>
       // Connect to broker and subscribe to everything
       var client = mqtt.connect();
-      client.subscribe(["trigger", "secondary"]);
+      client.subscribe(["secondary"]);
 
       client.on("message", function(topic, message) {
-          // LEFT IS NEGATIVE
-          // RIGHT IS POSITIVE
-
-          if (topic == "trigger") {
-              val = parseFloat(message.toString());
-              //console.log(topic, val);
+          left_or_right = parseInt(message.toString());
+          if (left_or_right == 0) {
+              message = "LEFT";
+          } else if (left_or_right == 1) {
+              message = "RIGHT";
+          } else {
+              message = "";
           }
 
-          if (topic == "secondary") {
-              left_or_right = parseInt(message.toString());
-              if (left_or_right == 0) {
-                  message = "LEFT";
-              } else if (left_or_right == 1) {
-                  message = "RIGHT";
-              } else {
-                  message = "";
-              }
-
-              //$('.jumbotron').attr('CHOICE', message);
-              $('.jumbotron').text(message);
-          }
-
-          if (((val < -0.25) || (val > 0.25))) {
-              $('.jumbotron').text('');
-          }
+          $('.jumbotron').text(message);
       })
     </script>
 </body>
