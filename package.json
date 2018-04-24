@@ -1,0 +1,19 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "Connect a MQTT server to a HoloLens and then open up another client in a browser and make a guidance display? Okay...",
+  "main": "server.js",
+  "dependencies": {
+    "bootstrap": "^4.1.0",
+    "express": "^4.16.3",
+    "jquery": "^3.3.1",
+    "mosca": "^2.8.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "ISC"
+}
