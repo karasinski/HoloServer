@@ -40,16 +40,10 @@ broker.on('clientConnected', function(client) {
     console.log('client connected', client.id);
 });
 
-// fired when a message is received
-broker.on('published', function(packet, client) {
-  if (['time', 'x', 'y', 'z', 'trigger'].indexOf(packet.topic) < 0) {
-    console.log('Published', packet.topic, packet.payload);
-  }
-});
-
 broker.on('ready', setup);
 
 // fired when the mqtt broker is ready
 function setup() {
   console.log('Server is up and running');
 }
+
